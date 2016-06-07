@@ -21,7 +21,6 @@ public class SignIn extends AsyncTask<Void, Void, Void> {
             String urlString = "http://192.168.1.14:8081/signin";
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");

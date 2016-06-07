@@ -3,18 +3,20 @@ package pl.placemap.data;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import pl.placemap.MainActivity;
 
 public class Data {
 
 
-    public List<Place> getFriendTaggedPlaces(int id) {
+    public static List<Place> getFriendTaggedPlaces(int id) {
         JSONArray friends, places;
         JSONObject friend, place;
         List<Place> placeList = new ArrayList<>();
@@ -52,7 +54,7 @@ public class Data {
         return placeList;
     }
 
-    public Person getFriendInfo(int id) {
+    public static Person getFriendInfo(int id) {
         JSONArray friends;
         JSONObject friend;
         Person person = null;
@@ -90,7 +92,7 @@ public class Data {
         return friendsList;
     }
 
-    public List<Person> getAllFriendsInfo() {
+    public static List<Person> getAllFriendsInfo() {
         JSONArray friends;
         JSONObject friend;
         List<Person> friendsList = new ArrayList<>();
@@ -124,6 +126,11 @@ public class Data {
             e.printStackTrace();
         }
         return jsonArray;
+    }
+
+    public static int getNumberOfFriends() {
+        JSONArray friends = getDataFromFile();
+        return friends.length();
     }
 
 

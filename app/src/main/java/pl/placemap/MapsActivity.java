@@ -19,6 +19,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
+import pl.placemap.data.Data;
+import pl.placemap.data.Person;
+import pl.placemap.data.Place;
+
 public class MapsActivity extends AppCompatActivity {
 
     private static MapsActivity instance;
@@ -31,6 +37,7 @@ public class MapsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_maps);
         instance = this;
         setUpMapIfNeeded();
+        showPlacesAllFriends();
     }
 
     @Override
@@ -74,18 +81,53 @@ public class MapsActivity extends AppCompatActivity {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMapToolbarEnabled(false);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
-            mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(-37.81319, 144.96298))
-                    .title("Melbourne"));
         }
     }
 
     public void onClickFriendsButton(View view) {
+        List<Person> friendsList = Data.getAllFriendsInfo();
+        final int size = friendsList.size();
+        String[] string = new String[size + 1];
+        for (int i = 0; i < size; i++) {
+            string[i] = friendsList.get(i).getName();
+        }
+        string[size] = "All friends";
+        new AlertDialog.Builder(MapsActivity.this).setTitle("Friends")
+                .setSingleChoiceItems(string, 0, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if (whichButton == size)
+                            showPlacesAllFriends();
+                        else
+                            showPlacesOneFriend(whichButton, true);
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+    public void showPlacesOneFriend(int id, boolean clear) {
+        List<Place> placeList = Data.getFriendTaggedPlaces(id);
+        Place place;
+        Double latitude, longitude;
+        if (clear)
+            mMap.clear();
+        for (int i = 0; i < placeList.size(); i++) {
+            place = placeList.get(i);
+            latitude = Double.valueOf(place.getLatitude());
+            longitude = Double.valueOf(place.getLongitude());
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(latitude, longitude))
+                    .title(place.getName()));
+        }
 
     }
 
-    public void onClickFriend() {
-
+    public void showPlacesAllFriends() {
+        mMap.clear();
+        int size = Data.getNumberOfFriends();
+        for (int i = 0; i < size; i++) {
+            showPlacesOneFriend(i, false);
+        }
     }
 
     public static MapsActivity getInstance() {
