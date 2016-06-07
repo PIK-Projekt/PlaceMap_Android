@@ -33,6 +33,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
+import pl.placemap.connection.SignIn;
+
 public class MainActivity extends ActionBarActivity {
 
     private static MainActivity instance;
@@ -61,6 +63,9 @@ public class MainActivity extends ActionBarActivity {
 
                     @Override
                     public void onSuccess(LoginResult loginResult) {
+                        new SignIn().execute();
+                        startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                        finish();
                     }
 
                     @Override
@@ -74,6 +79,9 @@ public class MainActivity extends ActionBarActivity {
                     }
                 }
         );
+        if (isLoggedIn()) {
+            startActivity(new Intent(MainActivity.this, MapsActivity.class));
+        }
     }
 
     public boolean isLoggedIn() {
@@ -84,6 +92,7 @@ public class MainActivity extends ActionBarActivity {
     public static MainActivity getInstance() {
         return instance;
     }
+
 }
 
 
