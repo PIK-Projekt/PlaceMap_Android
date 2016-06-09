@@ -1,5 +1,6 @@
 package pl.placemap.connection;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 
 import java.io.BufferedWriter;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 import pl.placemap.MainActivity;
+import pl.placemap.MapsActivity;
 
 public class FileCreator extends AsyncTask<String, Void, Void> {
     @Override
@@ -24,5 +26,11 @@ public class FileCreator extends AsyncTask<String, Void, Void> {
         }
 
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        MapsActivity.getInstance().showPlacesAllFriends();
     }
 }

@@ -1,5 +1,7 @@
 package pl.placemap.data;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,7 +64,6 @@ public class Data {
         try {
             friend = friends.getJSONObject(id);
             person = new Person(friend.getString("name"), friend.getString("email"), friend.getString("phone"));
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

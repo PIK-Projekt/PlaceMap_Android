@@ -2,6 +2,7 @@ package pl.placemap.connection;
 
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -14,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import pl.placemap.MainActivity;
+import pl.placemap.MapsActivity;
 
 
 public class GetFriendsData extends AsyncTask<Void, Void, Void> {
@@ -30,7 +32,7 @@ public class GetFriendsData extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         try {
             String line;
-            String urlString = "http://192.168.1.14:8081/user/friends/" + AccessToken.getCurrentAccessToken().getUserId();
+            String urlString = "http://192.168.1.22:8081/user/friends/" + AccessToken.getCurrentAccessToken().getUserId();
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -56,7 +58,7 @@ public class GetFriendsData extends AsyncTask<Void, Void, Void> {
         if (responseCode == HttpURLConnection.HTTP_OK) {
             new FileCreator().execute(result.toString());
         } else {
-            Toast.makeText(MainActivity.getInstance(), "Unable to connect with server", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MapsActivity.getInstance(), "Unable to connect with server", Toast.LENGTH_SHORT).show();
         }
     }
 }

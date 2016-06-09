@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         new SignIn().execute();
-                        startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                        startActivity(new Intent(MainActivity.getInstance(), MapsActivity.class));
                         finish();
                     }
 
@@ -80,7 +80,9 @@ public class MainActivity extends ActionBarActivity {
                 }
         );
         if (isLoggedIn()) {
-            startActivity(new Intent(MainActivity.this, MapsActivity.class));
+            new SignIn().execute();
+            startActivity(new Intent(MainActivity.getInstance(), MapsActivity.class));
+            finish();
         }
     }
 
